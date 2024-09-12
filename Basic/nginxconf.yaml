@@ -1,0 +1,18 @@
+---
+- name: Changing nginx display information
+  hosts: web-servers
+  become: yes
+  tasks:
+  - name: Update the nginx html file
+    ansible.builtin.copy:
+      src: ./index.html 
+      dest: /usr/share/nginx/html/index.html
+    notify:
+    - Restart Nginx
+  handlers:
+  - name: Restart Nginx
+    ansible.builtin.service:
+      name: nginx
+      state: restarted
+      enabled: yes
+

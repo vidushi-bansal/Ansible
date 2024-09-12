@@ -1,0 +1,20 @@
+---
+- name: Installing Nginx on EC2 servers
+  hosts: web-servers
+  become: yes
+  tasks:
+  - name: Install Nginx in Ubuntu
+    ansible.builtin.apt:
+      name: nginx
+      state: present
+    when: ansible_os_family == "Debian"
+  - name: Install Nginx in Linux
+    ansible.builtin.yum:
+      name: nginx
+      state: present
+    when: ansible_os_family == "RedHat"
+  - name: Running nginx
+    ansible.builtin.service:
+      name: nginx
+      state: started
+      enabled: yes 
